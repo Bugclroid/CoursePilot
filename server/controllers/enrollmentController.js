@@ -17,6 +17,7 @@ export const enrollInCourse = async (req, res) =>{
         if (existingEnrollment) {
       const error = new Error("You are already enrolled in this course");
       error.statusCode = 400; 
+      throw error
     }
         const fakePaymentId = `mock_pay_${crypto.randomUUID()}`;
 
@@ -37,5 +38,41 @@ export const enrollInCourse = async (req, res) =>{
         res.status(500).json({
         success: false,
         message: error.message || "An internal server error occurred."})  
+    }
+}
+
+export const getStudentEnrollments = async (req, res) => {
+    try {
+       const studentId = req.user._id;
+
+       const studentEnrollments = await Enrollment.find({studentId: studentId}).populate("courseId")
+            res.status(200).json({
+            success:true,
+            enrollments: studentEnrollments})
+
+    } catch (error) {
+         console.log("Error: ", error )
+        res.status(500).json({
+        success: false,
+        message: error.message || "An internal server error occurred."})     
+    }
+}
+export const getAdminEnrollments = async (req, res) => {
+    try {
+       const allEnrollments = await Enrollment.find({}).populate("courseId", "title").populate("studentId", "name email")
+       const totalRevenue = allEnrollments.reduce((acc, enrollment)=>{
+        return acc + (enrollment.paymentStatus === "paid" ? enrollment.amount : 0)
+       },0)
+            res.status(200).json({
+            success:true,
+            enrollments: allEnrollments,
+            totalRevenue: totalRevenue
+        })
+
+    } catch (error) {
+         console.log("Error: ", error )
+        res.status(500).json({
+        success: false,
+        message: error.message || "An internal server error occurred."})     
     }
 }
