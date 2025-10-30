@@ -4,6 +4,7 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import authRouter from './routes/authRoutes.js';
 import courseRouter from './routes/courseRoutes.js';
+import enrollmentRouter from "./routes/enrollmentRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -20,6 +21,7 @@ app.get('/',(req, res) => {
 
 app.use("/api/auth",authRouter);
 app.use("/api/course", courseRouter);
+app.use("/api/enroll", enrollmentRouter);
 
 const PORT = process.env.PORT || 5000;
 
