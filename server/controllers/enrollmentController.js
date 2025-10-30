@@ -4,7 +4,7 @@ import crypto from "crypto";
 
 export const enrollInCourse = async (req, res) =>{
     try {
-        const courseId = req.body
+        const {courseId} = req.body
         const studentId = req.user._id
 
         const course = await Course.findById(courseId);
@@ -14,11 +14,10 @@ export const enrollInCourse = async (req, res) =>{
             throw error
         }
         const existingEnrollment = await Enrollment.findOne({ studentId: studentId, courseId: courseId });
-        if(!existingEnrollment){
-            const error = new Error ("You are already enrolled in this course")
-            error.statusCode=400;
-            throw error
-        }
+        if (existingEnrollment) {
+      const error = new Error("You are already enrolled in this course");
+      error.statusCode = 400; 
+    }
         const fakePaymentId = `mock_pay_${crypto.randomUUID()}`;
 
         const newEnrollment = new Enrollment ({

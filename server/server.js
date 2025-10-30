@@ -20,8 +20,8 @@ app.get('/',(req, res) => {
 });
 
 app.use("/api/auth",authRouter);
-app.use("/api/course", courseRouter);
-app.use("/api/enroll", enrollmentRouter);
+app.use("/api/courses", courseRouter);
+app.use("/api/enrollments", enrollmentRouter);
 
 const PORT = process.env.PORT || 5000;
 
