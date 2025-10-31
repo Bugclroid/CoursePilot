@@ -47,6 +47,24 @@ export const getCourseById = async (id) => {
   return res.data; // <-- Return server data
 };
 
-// (We'll add more here)
+export const enrollInCourse = async (courseId) => {
+  // Our backend is expecting an object with a 'courseId' property
+  const res = await api.post('/enrollments', { courseId });
+  return res.data;
+};
+
+// --- Student Dashboard ---
+export const getStudentEnrollments = async () => {
+  const res = await api.get('/enrollments/student');
+  return res.data;
+};
+
+// --- Admin Dashboard ---
+export const getAdminEnrollments = async () => {
+  const res = await api.get('/enrollments/admin');
+  return res.data;
+};
+
+
 
 export default api;
