@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { getAllCourses } from '../services/api'; // We already built this!
-import CourseCard from '../components/CourseCard'; // Our new component
+import { getAllCourses } from '../services/api';
+import CourseCard from '../components/CourseCard';
 
 function HomePage() {
-  // --- State ---
+ 
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // --- Effect ---
-  // This runs once when the component first loads (thanks to the empty `[]`)
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         setError('');
         setIsLoading(true);
-        // Call our API service
+       
         const res = await getAllCourses();
-        setCourses(res.courses); // Set the courses in state
+        setCourses(res.courses); 
       } catch (err) {
         console.error(err);
         setError(err.response?.data?.message || 'Failed to fetch courses');
@@ -29,7 +28,7 @@ function HomePage() {
     fetchCourses();
   }, []);
 
-  // --- Render Logic ---
+
   let content;
   if (isLoading) {
     content = <div className="text-center text-2xl">Loading courses...</div>;
@@ -38,7 +37,7 @@ function HomePage() {
   } else if (courses.length === 0) {
     content = <div className="text-center text-2xl">No courses found.</div>;
   } else {
-    // If we have courses, map over them and render a card for each one
+ 
     content = (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {courses.map((course) => (

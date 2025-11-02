@@ -1,29 +1,29 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // useParams gets the :id from the URL
-import { getCourseById,enrollInCourse  } from '../services/api'; // We already built this!
+import { useParams, useNavigate } from 'react-router-dom'; 
+import { getCourseById,enrollInCourse  } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 function CourseDetailPage() {
-  // --- State ---
+  
   const [course, setCourse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEnrolling, setIsEnrolling] = useState(false); 
   const [error, setError] = useState('');
   const [enrollmentError, setEnrollmentError] = useState('');
 
-  // --- Hooks ---
-  const { id } = useParams(); // Gets the course ID from the URL
+  const { id } = useParams(); 
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // --- Effect to fetch course data ---
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
         setIsLoading(true);
         setError('');
         const res = await getCourseById(id);
-        setCourse(res.course); // Our controller sends { success: true, course: ... }
+        setCourse(res.course);
       } catch (err) {
         console.error(err);
         setError(err.response?.data?.message || 'Failed to fetch course');
@@ -32,14 +32,14 @@ function CourseDetailPage() {
       }
     };
     fetchCourse();
-  }, [id]); // Re-run this effect if the ID in the URL ever changes
+  }, [id]); 
 
-  // --- Handler for the Enroll button ---
+ 
   const handleEnroll = async () => {
     setEnrollmentError(''); 
-     if (!isAuthenticated) { navigate('/login'); return; } // 2. Check if user is a student
+     if (!isAuthenticated) { navigate('/login'); return; }
      if (user.role !== 'student') { setEnrollmentError('Only students can enroll. Admins manage courses.'); return; } 
-     // 3. Try to enroll 
+  
      try { setIsEnrolling(true);
         const res = await enrollInCourse(id); 
         navigate('/dashboard'); } 
@@ -48,7 +48,7 @@ function CourseDetailPage() {
              finally { setIsEnrolling(false); }
   };
 
-  // --- Render Logic ---
+
   if (isLoading) {
     return <div className="text-center text-2xl p-10">Loading course details...</div>;
   }
@@ -61,7 +61,7 @@ function CourseDetailPage() {
     return <div className="text-center text-2xl p-10">Course not found.</div>;
   }
 
-  // Fallback image
+
   const placeholderImage = `https://placehold.co/800x400/334155/94a3b8?text=${course.title.replace(/\s/g, '+')}`;
 
   return (
@@ -89,7 +89,7 @@ function CourseDetailPage() {
             </button>
           </div>
 
-          {/* Enrollment error message */}
+          
           {enrollmentError && (
             <div className="bg-red-500 text-white p-3 rounded-md mb-6 text-center">
               {enrollmentError}

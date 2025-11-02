@@ -30,7 +30,7 @@ export const getAllCourses = async (req, res, next) => {
         const courses = await Course.find({}).populate("createdBy", "name email")
         res.status(200).json({
             success: true,
-            course: courses
+            courses: courses
         })
     } catch (error) {
         console.log("Error: ", error )

@@ -23,45 +23,58 @@ api.interceptors.request.use(
 // --- Auth Routes ---
 export const loginUser = async (email, password) => {
   const res = await api.post('/auth/signin', { email, password });
-  return res.data; // <-- Return server data
+  return res.data; 
 };
 
 export const registerUser = async (name, email, password) => {
   const res = await api.post('/auth/signup', { name, email, password });
-  return res.data; // <-- Return server data
+  return res.data; 
 };
 
 export const getUserProfile = async () => {
   const res = await api.get('/auth/profile');
-  return res.data; // <-- Return server data
+  return res.data; 
 };
 
-// --- Course Routes ---
+
 export const getAllCourses = async () => {
   const res = await api.get('/courses');
-  return res.data; // <-- Return server data
+  return res.data; 
 };
 
 export const getCourseById = async (id) => {
   const res = await api.get(`/courses/${id}`);
-  return res.data; // <-- Return server data
+  return res.data; 
 };
 
 export const enrollInCourse = async (courseId) => {
-  // Our backend is expecting an object with a 'courseId' property
+  
   const res = await api.post('/enrollments', { courseId });
   return res.data;
 };
 
-// --- Student Dashboard ---
 export const getStudentEnrollments = async () => {
   const res = await api.get('/enrollments/student');
   return res.data;
 };
 
-// --- Admin Dashboard ---
 export const getAdminEnrollments = async () => {
   const res = await api.get('/enrollments/admin');
+  return res.data;
+};
+
+export const createCourse = async (courseData) => {
+  const res = await api.post('/courses', courseData);
+  return res.data;
+};
+
+export const updateCourse = async (id, courseData) => {
+  const res = await api.put(`/courses/${id}`, courseData);
+  return res.data;
+};
+
+export const deleteCourse = async (id) => {
+  const res = await api.delete(`/courses/${id}`);
   return res.data;
 };
 
