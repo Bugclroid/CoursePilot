@@ -58,7 +58,7 @@ function StudentDashboard() {
               <h3 className="text-2xl font-bold mb-2">{enrollment.courseId.title}</h3>
               <p className="text-gray-400 mb-4">Duration: {enrollment.courseId.duration}</p>
               <p className="text-gray-300 mb-4">
-                Payment: <span className="font-bold text-green-400">${enrollment.amount} (Paid)</span>
+                Payment: <span className="font-bold text-green-400">rs {enrollment.amount} (Paid)</span>
             </p>
 
               <Link 
