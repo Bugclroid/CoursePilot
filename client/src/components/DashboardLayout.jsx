@@ -11,6 +11,10 @@ function DashboardLayout() {
     navigate('/login');
   };
 
+  // Style for the main "Home" link
+  const getNavLinkStyle = ({ isActive }) =>
+    isActive ? "text-white font-bold" : "text-gray-300 hover:text-white";
+
   const getStudentLinkStyle = ({ isActive }) =>
     isActive ? "text-blue-300 font-bold underline" : "text-blue-400 hover:underline";
   
@@ -30,6 +34,13 @@ function DashboardLayout() {
             <span className="text-gray-300 hidden sm:inline">
               Welcome, <strong className="font-medium">{user?.name}</strong>!
             </span>
+            
+            {/* --- NEW HOME LINK --- */}
+            <NavLink to="/" className={getNavLinkStyle}>
+              Home
+            </NavLink>
+            
+            {/* --- Role-Specific Links --- */}
             {user?.role === 'admin' && (
               <>
                 <NavLink 
@@ -55,6 +66,8 @@ function DashboardLayout() {
                 My Dashboard
               </NavLink>
             )}
+            
+            {/* --- Logout Button --- */}
             <button
               onClick={handleLogout}
               className="bg-red-600 text-white py-2 px-4 rounded-md font-bold hover:bg-red-700 transition-colors"
@@ -65,7 +78,6 @@ function DashboardLayout() {
         </nav>
       </header>
 
-  
       <main className="container mx-auto p-8">
         <Outlet />
       </main>
