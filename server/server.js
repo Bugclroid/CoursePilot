@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import authRouter from './routes/authRoutes.js';
 import courseRouter from './routes/courseRoutes.js';
 import enrollmentRouter from "./routes/enrollmentRoutes.js";
+import aiTestRouter from './routes/aiTestRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -22,6 +23,7 @@ app.get('/',(req, res) => {
 app.use("/api/auth",authRouter);
 app.use("/api/courses", courseRouter);
 app.use("/api/enrollments", enrollmentRouter);
+app.use('/api/ai', aiTestRouter);
 
 const PORT = process.env.PORT || 5000;
 
