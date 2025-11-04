@@ -55,6 +55,12 @@ function DashboardLayout() {
                 >
                   Manage Courses
                 </NavLink>
+                <NavLink 
+                  to="/admin/ai-test" 
+                  className={getAdminLinkStyle}
+                >
+                 AI POC
+                </NavLink>
               </>
             )}
 
