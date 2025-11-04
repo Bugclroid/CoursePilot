@@ -14,7 +14,12 @@ function AiTestPage() {
     setError('');
     try {
       const res = await testAiAnalysis(text);
-      setResult(res.analysis);
+      
+      // --- THIS IS THE FIX ---
+      // The data from the server is inside res.data
+      // The analysis is inside res.data.analysis
+      setResult(res.data.analysis);
+
     } catch (err) {
       setError('Failed to get AI response.');
       console.error(err);
@@ -57,3 +62,4 @@ function AiTestPage() {
 }
 
 export default AiTestPage;
+
