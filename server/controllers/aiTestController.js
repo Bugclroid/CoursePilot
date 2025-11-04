@@ -23,18 +23,24 @@ export const analyzeText = async (req, res) => {
     Example 1: "I need to go to the store" -> {"taskFound": false}
     Example 2: "book flight ticket... day after tomorrow 10 pm" -> {"taskFound": true, "taskDescription": "Book flight ticket", "dueDate": "2025-11-05T22:00:00Z"}
     Example 3: "interview tomorrow at 12" -> {"taskFound": true, "taskDescription": "Interview", "dueDate": "2025-11-04T12:00:00Z"}
+
+    ---
+    IMPORTANT: You MUST only return the raw JSON object and nothing else. Do not add any extra text or explanation.
   `;
 
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4', // Use the best model he has access to
+      model: 'gpt-4', // We can keep this model
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: text },
       ],
-      response_format: { type: 'json_object' }, // Force JSON output
+      // --- THIS IS THE FIX ---
+      // We are removing the 'response_format' line that caused the 400 error.
+      // response_format: { type: 'json_object' }, // DELETE OR COMMENT OUT THIS LINE
     });
 
+    // The response *should* be a string of JSON, thanks to our prompt.
     const aiResult = JSON.parse(response.choices[0].message.content);
 
     res.status(200).json({
@@ -46,3 +52,4 @@ export const analyzeText = async (req, res) => {
     res.status(500).json({ success: false, message: 'AI analysis failed' });
   }
 };
+
