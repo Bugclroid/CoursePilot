@@ -78,6 +78,9 @@ export const deleteCourse = async (id) => {
   return res.data;
 };
 
+export const testAiAnalysis = (text) => {
+  return api.post('/ai/test', { text });
+};
 
 
 export default api;
